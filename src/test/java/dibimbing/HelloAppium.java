@@ -3,6 +3,8 @@ package dibimbing;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
@@ -96,7 +98,32 @@ public class HelloAppium {
     tap.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
     driver.perform(Arrays.asList(tap));
 
-    Thread.sleep(5000);
+    Thread.sleep(5000); // for demo test only!!
+  }
+
+  @Test
+  public void swipe() throws InterruptedException {
+    Dimension size = driver.manage().window().getSize();
+    System.out.println("Size: " + size);
+
+    int startX = size.getWidth() / 2;
+    int startY = size.getHeight() / 2;
+    int endY = (int) (size.getHeight() * 0.2);
+
+    System.out.println("Start X: " + startX + " Start Y: " + startY + " End Y: " + endY);
+
+    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+    Sequence swipe = new Sequence(finger, 1);
+
+    swipe.addAction(finger.createPointerMove(Duration.ofSeconds(0),
+      PointerInput.Origin.viewport(), startX, startY));
+    swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+    swipe.addAction(finger.createPointerMove(Duration.ofMillis(2000),
+      PointerInput.Origin.viewport(), startX, endY));
+    swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+    driver.perform(Arrays.asList(swipe));
+
+    Thread.sleep(5000); // for demo test only!!
   }
 
   @AfterClass
