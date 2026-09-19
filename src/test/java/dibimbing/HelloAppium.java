@@ -3,6 +3,9 @@ package dibimbing;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -37,7 +40,13 @@ public class HelloAppium {
     assert driver.getSessionId() != null;
     System.out.println("Session ID: " + driver.getSessionId());
 
-    driver.findElement(AppiumBy.accessibilityId("View menu")).click();
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+    WebElement elementViewMenu = wait.until(
+      ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId("View menu"))
+    );
+    elementViewMenu.click();
+
     driver.findElement(AppiumBy.accessibilityId("Login Menu Item")).click();
     driver.findElement(AppiumBy.id("com.saucelabs.mydemoapp.android:id/nameET")).sendKeys("bod@example.com");
     driver.findElement(AppiumBy.id("com.saucelabs.mydemoapp.android:id/passwordET")).sendKeys("10203040");
