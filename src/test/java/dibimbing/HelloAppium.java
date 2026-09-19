@@ -4,6 +4,8 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
@@ -13,6 +15,7 @@ import org.testng.annotations.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Set;
 
 public class HelloAppium {
@@ -80,6 +83,20 @@ public class HelloAppium {
 
     System.out.println("Title of web view: " + driver.getTitle());
     Thread.sleep(5000); // for demo test only!!
+  }
+
+  @Test
+  public void clickByCoordinate() throws InterruptedException { // rare case
+    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+    Sequence tap = new Sequence(finger, 1);
+
+    tap.addAction(finger.createPointerMove(Duration.ofMillis(0),
+      PointerInput.Origin.viewport(), 1000, 193));
+    tap.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+    tap.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+    driver.perform(Arrays.asList(tap));
+
+    Thread.sleep(5000);
   }
 
   @AfterClass
