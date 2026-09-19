@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Set;
 
 public class HelloAppium {
   private AndroidDriver driver;
@@ -43,6 +44,31 @@ public class HelloAppium {
     // example after login -> click cart
     driver.findElement(AppiumBy.accessibilityId("Displays number of items in your cart")).click();
     Thread.sleep(10000); // for demo test only!!
+  }
+
+  @Test
+  public void testWebview() throws InterruptedException {
+    assert driver.getSessionId() != null;
+
+    driver.findElement(AppiumBy.accessibilityId("View menu")).click();
+    driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().text(\"WebView\")")).click();
+    driver.findElement(AppiumBy.id("com.saucelabs.mydemoapp.android:id/urlET")).sendKeys("dikacore.dev");
+    driver.findElement(AppiumBy.accessibilityId("Tap to view content of given url")).click();
+    Thread.sleep(5000); // for demo test only!!
+
+
+    Set<String> contexts = driver.getContextHandles();
+    System.out.println("Context handles: " + contexts);
+
+    for (String context : contexts) {
+      if (context.contains("WEBVIEW")) {
+        System.out.println("Context found: " + context);
+        driver.context(context);
+      }
+    }
+
+    System.out.println("Title of web view: " + driver.getTitle());
+    Thread.sleep(5000); // for demo test only!!
   }
 
   @AfterClass
