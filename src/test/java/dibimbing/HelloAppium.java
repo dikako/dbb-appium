@@ -126,6 +126,16 @@ public class HelloAppium {
     Thread.sleep(5000); // for demo test only!!
   }
 
+  @Test
+  public void swipeToElement() throws InterruptedException {
+    driver.findElement(AppiumBy.androidUIAutomator(
+      "new UiScrollable(new UiSelector().scrollable(true))" +
+        ".scrollIntoView(new UiSelector().text(\"Test.allTheThings() T-Shirt (yellow)\"))"
+    ));
+
+    Thread.sleep(5000); // for demo test only!!
+  }
+
   @AfterClass
   public void tearDown() {
     if (driver != null) {
