@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.Set;
 
 public class HelloAppium {
@@ -24,6 +25,7 @@ public class HelloAppium {
     try {
       URL appiumServerUrl = new URL("http://127.0.0.1:4723");
       driver = new AndroidDriver(appiumServerUrl, options);
+      driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
       System.out.println("Driver session started!");
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
