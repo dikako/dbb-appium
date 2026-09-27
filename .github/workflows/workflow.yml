@@ -1,0 +1,25 @@
+name: Run test android on pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  JAVA_VERSION: '17'
+  GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
+
+jobs:
+  test:
+    runs-on: "macOS"
+
+    steps:
+      - name: Checkout repository test
+        uses: action/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run tests
+        run: |
+          chmod +x ./gradlew
+          ./gradlew test
